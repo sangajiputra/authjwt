@@ -14,21 +14,31 @@ class MahasiswaModel extends Model{
         return $query ? true : false;
     }
 
-    public function getData($id=NULL)
+    public function getData($offset=NULL,$limit=NULL)
     {
-      if(empty($id)){
+      if(empty($offset)){
         $hasil = $this->table($this->table)
                 ->orderBy('id_mahasiswa', 'DESC')
                 ->get()
                 ->getResultArray();
-        return $hasil;
       }else{
         $hasil = $this->table($this->table)
-                ->where('id_mahasiswa', $id)
+                ->orderBy('id_mahasiswa', 'DESC')
+                ->offset($offset)
+                ->limit($limit)
                 ->get()
-                ->getRowArray();
-        return $hasil;
+                ->getResultArray();
       }
+      return $hasil;
+    }
+
+    public function getOne($id=NULL)
+    {
+      $hasil = $this->table($this->table)
+              ->where('id_mahasiswa', $id)
+              ->get()
+              ->getRowArray();
+      return $hasil;
     }
 
     public function edit($data,$id)

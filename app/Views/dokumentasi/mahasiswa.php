@@ -8,6 +8,8 @@
           <h4 class="page-title">Mahasiswa ada fitur Create, Read, Update, Delete. Jangan lupa pada <code>Authorization</code> pilih Bearer Token untuk Type nya lalu pada bagian token paste token yang di berikan pada saat login (berlaku untuk semua request mahasiswa).</h4>
 					<h4 class="page-title">Url get all : <code>http://localhost:8080/mahasiswa/getData</code>, Method <code>GET</code></h4>
 					<br>
+					<h4 class="page-title">Url get all with page : <code>http://localhost:8080/mahasiswa/getData?limit={berapa limit perhalaman}&page={halaman berapa}</code>, Method <code>GET</code></h4>
+					<br>
 					<h4 class="page-title">Url get one : <code>http://localhost:8080/mahasiswa/detail/{id_mahasiswa}</code>, Method <code>GET</code></h4>
 					<br>
 					<h4 class="page-title">Url delete : <code>http://localhost:8080/mahasiswa/delete/{id_mahasiswa}</code>, Method <code>GET</code></h4>

@@ -22,6 +22,7 @@ class Mahasiswa extends ResourceController
         // inisialisasi class Auth dengan $this->protect
         $this->protect         = new Auth();
         $this->model_mahasiswa = new MahasiswaModel();
+        $pager                 = \Config\Services::pager();
     }
     protected $format       = 'json'; //atur format output
 
@@ -70,10 +71,17 @@ class Mahasiswa extends ResourceController
     {
       $cek_token = $this->index();
       if ($cek_token == '200') {
-        $data = $this->model_mahasiswa->getData();
+        if($_GET){
+          $data     = $this->model_mahasiswa->orderBy('id_mahasiswa', 'DESC')->paginate($_GET['limit'],'group1',$_GET['page']);
+          $perPage  = count($data);
+        }else{
+          $data     = $this->model_mahasiswa->getData();
+          $perPage  = 'All';
+        }
         $response = [
             'status' => 200,
-            'pesan'  => $data
+            'pesan'  => $data,
+            'perPage'=> $perPage
         ];
       }else{
         $response = [
@@ -84,6 +92,7 @@ class Mahasiswa extends ResourceController
 
       return $this->respond($response, $response['status']);
     }
+
 
     public function add()
     {
@@ -172,7 +181,7 @@ class Mahasiswa extends ResourceController
       $cek_token = $this->index();
       if ($cek_token == '200') {
         if (!empty($id)) {
-          $data = $this->model_mahasiswa->getData($id);
+          $data = $this->model_mahasiswa->getOne($id);
           $response = [
               'status' => 200,
               'pesan'  => $data
