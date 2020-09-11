@@ -32,6 +32,15 @@ class MahasiswaModel extends Model{
       return $hasil;
     }
 
+    public function search($nama=NULL, $jurusan=NULL)
+    {
+      $hasil = $this->table($this->table)
+              ->like('nama_mahasiswa',$nama)
+              ->like('jurusan_mahasiswa',$jurusan)
+              ->orderBy('id_mahasiswa', 'DESC');
+      return $hasil;
+    }
+
     public function getOne($id=NULL)
     {
       $hasil = $this->table($this->table)

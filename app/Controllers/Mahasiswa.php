@@ -76,12 +76,48 @@ class Mahasiswa extends ResourceController
           $perPage  = count($data);
         }else{
           $data     = $this->model_mahasiswa->getData();
-          $perPage  = 'All';
+          $perPage  = count($data);
         }
         $response = [
             'status' => 200,
             'pesan'  => $data,
-            'perPage'=> $perPage
+            'count'  => $perPage
+        ];
+      }else{
+        $response = [
+            'status' => 401,
+            'pesan'  => 'token rejected'
+        ];
+      }
+
+      return $this->respond($response, $response['status']);
+    }
+
+    public function search()
+    {
+      $cek_token = $this->index();
+      if ($cek_token == '200') {
+        if($_GET){
+          if(isset($_GET['jurusan']) || isset($_GET['nama'])){
+            $status = '200';
+            $jurusan  = isset($_GET['jurusan']) ? $_GET['jurusan'] : '' ;
+            $nama     = isset($_GET['nama']) ? $_GET['nama'] : '' ;
+            $data     = $this->model_mahasiswa->search($nama,$jurusan)->paginate($_GET['limit'],'group1',$_GET['page']);
+            $perPage  = count($data);
+          }else{
+            $status   = '500';
+            $data     = 'Masukkan keyword';
+            $perPage  = '';
+          }
+        }else{
+          $status   = '405';
+          $data     = 'Parameter tidak boleh kosong';
+          $perPage  = '';
+        }
+        $response = [
+            'status' => 200,
+            'pesan'  => $data,
+            'count'  => $perPage
         ];
       }else{
         $response = [
